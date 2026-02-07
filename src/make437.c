@@ -4,24 +4,43 @@
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "stb_truetype.h"
 
-int main(int argc, char** argv) {
+typedef struct {
+    const char* input_file;
+    const char* output_file;
+    const char* image_format;
+    int pixel_height;
+} args_t;
+
+static int parse_args(int argc, char** argv, args_t* args) {
     if (argc != 5) {
         fprintf(stderr, "Usage: make437 <input_file> <output_file> <pixel_height> <image_format>\n");
 
+        return 0;
+    }
+
+    args->input_file = argv[1];
+    args->output_file = argv[2];
+    args->image_format = argv[4];
+
+    args->pixel_height = atoi(argv[3]);
+    if (args->pixel_height <= 0) {
+        fprintf(stderr, "Pixel height must be greater than zero: %s\n", argv[3]);
+
+        return 0;
+    }
+
+    return 1;
+}
+
+int main(int argc, char** argv) {
+    args_t args;
+    if (!parse_args(argc, argv, &args)) {
         return 1;
     }
 
-    const char* input_file = argv[1];
-    const char* output_file = argv[2];
-    (void) output_file;
-    const char* pixel_height = argv[3];
-    (void) pixel_height;
-    const char* image_format = argv[4];
-    (void) image_format;
-
-    FILE* file = fopen(input_file, "rb");
+    FILE* file = fopen(args.input_file, "rb");
     if (!file) {
-        fprintf(stderr, "Failed to open font file: %s\n", input_file);
+        fprintf(stderr, "Failed to open font file: %s\n", args.input_file);
 
         return 1;
     }
@@ -34,7 +53,7 @@ int main(int argc, char** argv) {
 
     stbtt_fontinfo font;
     if (!stbtt_InitFont(&font, font_data, 0)) {
-        fprintf(stderr, "Failed to parse font file: %s\n", input_file);
+        fprintf(stderr, "Failed to parse font file: %s\n", args.input_file);
 
         return 1;
     }
