@@ -6,5 +6,7 @@ mkdir -p build
 gcc \
   -Wall \
   -Wextra \
+  -Iinclude/stb \
   -o build/make437 \
-  src/make437.c
+  src/make437.c \
+  -lm
