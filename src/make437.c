@@ -7,21 +7,18 @@
 typedef struct {
     const char* input_file;
     const char* output_file;
-    const char* image_format;
     int pixel_height;
 } args_t;
 
 static int parse_args(int argc, char** argv, args_t* args) {
-    if (argc != 5) {
-        fprintf(stderr, "Usage: make437 <input_file> <output_file> <pixel_height> <image_format>\n");
+    if (argc != 4) {
+        fprintf(stderr, "Usage: make437 <input_file> <output_file> <pixel_height>\n");
 
         return 0;
     }
 
     args->input_file = argv[1];
     args->output_file = argv[2];
-    args->image_format = argv[4];
-
     args->pixel_height = atoi(argv[3]);
     if (args->pixel_height <= 0) {
         fprintf(stderr, "Pixel height must be greater than zero: %s\n", argv[3]);
