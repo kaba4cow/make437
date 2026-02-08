@@ -87,29 +87,29 @@ int main(int argc, char** argv) {
     stbtt_GetFontVMetrics(&font, &ascent, NULL, NULL);
     int baseline = (int) (ascent * scale_factor);
     for (int i = 0; i < CHAR_COUNT; i++) {
-        int gridX = args.pixel_height * (i % GRID_RESOLUTION);
-        int gridY = args.pixel_height * (i / GRID_RESOLUTION);
+        int grid_x = args.pixel_height * (i % GRID_RESOLUTION);
+        int grid_y = args.pixel_height * (i / GRID_RESOLUTION);
         int codepoint = cp437_to_unicode[i];
-        int width, height, offX, offY;
+        int width, height, off_x, off_y;
         unsigned char* glyph_data = stbtt_GetCodepointBitmap(
             &font,
             0, scale_factor,
             codepoint,
             &width, &height,
-            &offX, &offY
+            &off_x, &off_y
         );
         if (glyph_data) {
-            for (int glyphY = 0; glyphY < height; glyphY++) {
-                for (int glyphX = 0; glyphX < width; glyphX++) {
-                    int glyphIndex = glyphY * width + glyphX;
-                    int cellX = glyphX + offX;
-                    int cellY = glyphY + offY + baseline;
-                    if (cellX >= 0 && cellX < args.pixel_height && cellY >= 0 && cellY < args.pixel_height) {
-                        int imageX = gridX + cellX;
-                        int imageY = gridY + cellY;
-                        if (imageX >= 0 && imageX < image_width && imageY >= 0 && imageY < image_width) {
-                            int imageIndex = imageY * image_width + imageX;
-                            image_data[imageIndex] = glyph_data[glyphIndex];
+            for (int glyph_y = 0; glyph_y < height; glyph_y++) {
+                for (int glyph_x = 0; glyph_x < width; glyph_x++) {
+                    int glyph_index = glyph_y * width + glyph_x;
+                    int cell_x = glyph_x + off_x;
+                    int cell_y = glyph_y + off_y + baseline;
+                    if (cell_x >= 0 && cell_x < args.pixel_height && cell_y >= 0 && cell_y < args.pixel_height) {
+                        int image_x = grid_x + cell_x;
+                        int image_y = grid_y + cell_y;
+                        if (image_x >= 0 && image_x < image_width && image_y >= 0 && image_y < image_width) {
+                            int image_index = image_y * image_width + image_x;
+                            image_data[image_index] = glyph_data[glyph_index];
                         }
                     }
                 }
