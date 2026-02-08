@@ -101,15 +101,13 @@ int main(int argc, char** argv) {
         if (glyph_data) {
             for (int glyph_y = 0; glyph_y < height; glyph_y++) {
                 for (int glyph_x = 0; glyph_x < width; glyph_x++) {
-                    int glyph_index = glyph_y * width + glyph_x;
                     int cell_x = glyph_x + off_x;
                     int cell_y = glyph_y + off_y + baseline;
                     if (cell_x >= 0 && cell_x < args.pixel_height && cell_y >= 0 && cell_y < args.pixel_height) {
                         int image_x = grid_x + cell_x;
                         int image_y = grid_y + cell_y;
                         if (image_x >= 0 && image_x < image_width && image_y >= 0 && image_y < image_width) {
-                            int image_index = image_y * image_width + image_x;
-                            image_data[image_index] = glyph_data[glyph_index];
+                            image_data[image_y * image_width + image_x] = glyph_data[glyph_y * width + glyph_x];
                         }
                     }
                 }
