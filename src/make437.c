@@ -102,11 +102,15 @@ int main(int argc, char** argv) {
             for (int glyphY = 0; glyphY < height; glyphY++) {
                 for (int glyphX = 0; glyphX < width; glyphX++) {
                     int glyphIndex = glyphY * width + glyphX;
-                    int imageX = gridX + glyphX + offX;
-                    int imageY = gridY + glyphY + offY + baseline;
-                    if (imageX >= 0 && imageX < image_width && imageY >= 0 && imageY < image_width) {
-                        int imageIndex = imageY * image_width + imageX;
-                        image_data[imageIndex] = glyph_data[glyphIndex] > 0x7F ? 0xFF : 0x00;
+                    int cellX = glyphX + offX;
+                    int cellY = glyphY + offY + baseline;
+                    if (cellX >= 0 && cellX < args.pixel_height && cellY >= 0 && cellY < args.pixel_height) {
+                        int imageX = gridX + cellX;
+                        int imageY = gridY + cellY;
+                        if (imageX >= 0 && imageX < image_width && imageY >= 0 && imageY < image_width) {
+                            int imageIndex = imageY * image_width + imageX;
+                            image_data[imageIndex] = glyph_data[glyphIndex] > 0x7F ? 0xFF : 0x00;
+                        }
                     }
                 }
             }
