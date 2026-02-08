@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
                         int imageY = gridY + cellY;
                         if (imageX >= 0 && imageX < image_width && imageY >= 0 && imageY < image_width) {
                             int imageIndex = imageY * image_width + imageX;
-                            image_data[imageIndex] = glyph_data[glyphIndex] > 0x7F ? 0xFF : 0x00;
+                            image_data[imageIndex] = glyph_data[glyphIndex];
                         }
                     }
                 }
